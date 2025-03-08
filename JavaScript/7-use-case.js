@@ -2,7 +2,7 @@
 
 const maybe = (x) => {
   const map = (fn) => maybe(x ? fn(x) : null);
-  map.ap = (functor) => functor((f) => (x && f ? f(x) : null));
+  map.ap = (target) => target(x);
   return map;
 };
 
@@ -28,4 +28,5 @@ const addVelocity = (velocity) => (coords) => {
 const coords = maybe(config.coords);
 const velocity = maybe(config.velocity);
 
-coords.ap(velocity(addVelocity))(console.log);
+maybe(addVelocity).ap(velocity).ap(coords)(console.log);
+velocity(addVelocity).ap(coords)(console.log);
